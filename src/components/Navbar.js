@@ -1,17 +1,25 @@
-import Reacr from 'react'
-import {NavLink} from 'react-router-dom'
+import React from 'react'
+
+import {useHistory} from 'react-router-dom'
+import {useAuth} from '../contexts/AuthContext'
+import {ProfileScreen} from '../view/ProfileScreen'
+
 
 export const Navbar = () => { 
+
+    const history = useHistory()
+
 
     const linkStyle = () => {
         return {matgin: '10px'}
     }
 
+
     return (
         <>
         <div style={{display: 'flex'}}>
-        <NavLink to='/home'><p style={linkStyle()}>Home</p></NavLink>
-        <NavLink to='/Login'><p style={linkStyle()}>Login</p></NavLink>
+        
+            
         </div>
         </>
     )

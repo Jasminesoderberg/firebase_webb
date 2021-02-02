@@ -1,28 +1,32 @@
 import React from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import { AuthProvider } from '../contexts/AuthContext'
 
-import {HomeScreen} from '../view/HomeScreen'
-import {LogInScreen} from '../view/LogInScreen'
-import {RegisterScreen} from '../view/RegisterScreen'
+import PrivetRoute from './PriveteRoute'
+
+import {RegisterScreen} from '../view/signUpScreens/RegisterScreen'
+import {ForgotPassword} from '../view/signUpScreens/ForgotPassword'
+
 import {PostScreen} from '../view/PostScreen'
 import {BookingsScreen} from '../view/BookingsScreen'
 import {ProfileScreen} from '../view/ProfileScreen'
-import RouthingPath from './RouthingPath'
+
+import {LogInScreen} from '../view/signUpScreens/LogInScreen'
+import {HomeScreen} from '../view/HomeScreen'
 
 export const Routing = (props) => {
-
 
     return(
         <>
         <Router>
         {props.children}
             <Switch>
-                <Route  exact path={RouthingPath.LogInScreen} component={LogInScreen}/>
-                <Route  exact path={RouthingPath.HomeScreen} component={HomeScreen}/>
-                <Route  exact path={RouthingPath.RegisterScreen} component={RegisterScreen}/>
-                <Route  exact path={RouthingPath.PostsScreen} component={PostScreen}/>
-                <Route  exact path={RouthingPath.BookingsScreen} component={BookingsScreen}/>
-                <Route  exact path={RouthingPath.ProfilScreen} component={ProfileScreen}/>
+            <AuthProvider>
+                <PrivetRoute exact path='/' component={HomeScreen} />
+                <Route path='/login' component={LogInScreen} />
+                <Route path='/forgotpassword' component={ForgotPassword} />
+                <Route path='/register' component={RegisterScreen} />
+            </AuthProvider>
             </Switch>
         </Router>
 

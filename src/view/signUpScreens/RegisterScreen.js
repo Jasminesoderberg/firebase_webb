@@ -1,10 +1,10 @@
 import React, { useRef, useState} from 'react';
 import {Form, Button, Card, Container, Alert} from 'react-bootstrap'
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 import {Link, useHistory} from 'react-router-dom'
 
-export const ProfileScreen = () => {
+export const RegisterScreen = () => {
 
     return (
     <Container 
@@ -12,18 +12,18 @@ export const ProfileScreen = () => {
     style={{minHeight: '100vh'}}
     >
         <div className='w-100' style={{maxWidth:'400px'}}>
-            <ProfileForm/>
+            <RegisterForm/>
         </div>
     </Container>
     );
 };
 
-const ProfileForm = () => { 
+const RegisterForm = () => { 
     
     const emailRef = useRef()
     const passwordRef = useRef()
-    const passwordConfirmRef = useRef()
-    const { currentUser, updatePassword } = useAuth()
+    const passwordconfirmRef = useRef()
+    const { signUp } = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -31,62 +31,52 @@ const ProfileForm = () => {
     async function handleSubmit(e) {
         e.preventDefault()
 
-
-
-        if(passwordRef.current.value !== passwordConfirmRef.current.value){
+        if(passwordRef.current.value !== passwordconfirmRef.current.value){
             return setError('Passwords do not match')
-        }else{
-            try{
-                setError('')
-                setLoading(true)
-                updatePassword(passwordRef.current.value)
-                
-            }
-            catch{
-                setError('Faild')
-            }
-            setLoading(false)
-            history.push('/home')
         }
-        
+        try {
+            setError('')
+            setLoading(true)
+            await signUp(emailRef.current.value, passwordRef.current.value)
+            history.push('/')
+        }catch{
+            setError('Faild to crate an accont')
+        }
+        setLoading(false)
     }
-    
+
     return (
         <> 
         <Card>
         <Card.Body>
-        <h2 className='text-center mb-4'>Profile</h2>
+        <h2 className='text-center mb-4'>Register</h2>
         {error && <Alert variant='danger'>{error}</Alert>}
             <Form onSubmit={handleSubmit}>
                 <Form.Group id='email'>
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type='email' ref={emailRef} required
-                        defaultValue={currentUser.email}
-                    />
+                    <Form.Control type='email' ref={emailRef} required/>
                 </Form.Group>
                 <Form.Group id='password'>
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type='password' ref={passwordRef}
-                        placeholder='Leave blank to keep the same'
-                    />
+                    <Form.Control type='password' ref={passwordRef} required/>
                 </Form.Group>
-                <Form.Group id='password'>
+                
+                <Form.Group id='password-confirm'>
                     <Form.Label>Password Confirmation</Form.Label>
-                    <Form.Control type='password' ref={passwordConfirmRef}
-                        placeholder='Leave blank to keep the same'
-                    />
+                    <Form.Control type='password' ref={passwordconfirmRef} required/>
                 </Form.Group>
                 <Button 
                 disabled={loading}
                 className='w-100'
                 type='submit'
-                >Update</Button>
+                >Register</Button>
             </Form>
         </Card.Body>
     </Card>
     <div className='w-100 text-center mt-2'>
-        <Link to='/home'>Cancel</Link>
+        Already have an account? <Link to='/login'>Log In</Link>
     </div>
 </>
 )
 }
+
