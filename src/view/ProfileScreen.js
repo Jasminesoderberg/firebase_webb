@@ -46,7 +46,7 @@ const ProfileForm = () => {
                 setError('Faild')
             }
             setLoading(false)
-            history.push('/home')
+            history.push('/')
         }
         
     }
@@ -85,7 +85,7 @@ const ProfileForm = () => {
         </Card.Body>
     </Card>
     <div className='w-100 text-center mt-2'>
-        <Link to='/home'>Cancel</Link>
+        <Link to='/'>Cancel</Link>
     </div>
 </>
 )

@@ -6,12 +6,12 @@ import PrivetRoute from './PriveteRoute'
 
 import {RegisterScreen} from '../view/signUpScreens/RegisterScreen'
 import {ForgotPassword} from '../view/signUpScreens/ForgotPassword'
+import {LogInScreen} from '../view/signUpScreens/LogInScreen'
 
 import {PostScreen} from '../view/PostScreen'
 import {BookingsScreen} from '../view/BookingsScreen'
 import {ProfileScreen} from '../view/ProfileScreen'
 
-import {LogInScreen} from '../view/signUpScreens/LogInScreen'
 import {HomeScreen} from '../view/HomeScreen'
 
 export const Routing = (props) => {
@@ -23,6 +23,10 @@ export const Routing = (props) => {
             <Switch>
             <AuthProvider>
                 <PrivetRoute exact path='/' component={HomeScreen} />
+                <PrivetRoute exact path='/posts' component={PostScreen} />
+                <PrivetRoute exact path='/bookings' component={BookingsScreen} />
+                <PrivetRoute exact path='/profile' component={ProfileScreen} />
+
                 <Route path='/login' component={LogInScreen} />
                 <Route path='/forgotpassword' component={ForgotPassword} />
                 <Route path='/register' component={RegisterScreen} />
