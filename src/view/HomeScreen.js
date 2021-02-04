@@ -34,6 +34,9 @@ export const HomeScreen = () => {
         </Card.Body>
         <div className='w-100 text-center mt-2'>
         <Link to='/profile'>Profile</Link>
+        </div>
+        <div className='w-100 text-center mt-2'>
+        <Link to='/bookings'>Bookings</Link>
     </div>
     </Card>
 

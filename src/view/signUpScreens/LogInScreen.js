@@ -20,6 +20,7 @@ export const LogInScreen = () => {
 };
 
 const SignUpScreen = () => { 
+
     
     const emailRef = useRef()
     const passwordRef = useRef()
