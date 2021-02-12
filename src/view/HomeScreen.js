@@ -30,7 +30,7 @@ export const HomeScreen = () => {
         <h2 className='text-center mb-2'>Profile</h2>
         {error && <Alert variant='danger'>{error}</Alert>}
 
-        <strong>Email:</strong>
+        <strong>Email:</strong> {currentUser.email}
         </Card.Body>
         <div className='w-100 text-center mt-2'>
         <Link to='/profile'>Profile</Link>

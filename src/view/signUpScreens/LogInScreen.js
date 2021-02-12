@@ -1,8 +1,10 @@
 import React, { useRef, useState} from 'react';
-import {Form, Button, Card, Container, Alert} from 'react-bootstrap'
+import {Form, Button, Card, Container, Alert, Image} from 'react-bootstrap'
 import { useAuth } from '../../contexts/AuthContext';
 
 import {Link, useHistory} from 'react-router-dom'
+
+import shapes from '../../img/shapes.jpg'
 
 
 export const LogInScreen = () => {
@@ -12,7 +14,7 @@ export const LogInScreen = () => {
     className='d-flex aling-items-center justify-content-center'
     style={{minHeight: '100vh'}}
     >
-        <div className='w-100' style={{maxWidth:'400px'}}>
+        <div className='w-100' style={{maxWidth:'40%'}}>
             <SignUpScreen/>
         </div>
     </Container>
@@ -44,8 +46,9 @@ const SignUpScreen = () => {
     }
 
     return (
-        <> 
-        <Card>
+        <>
+            <img src={shapes} style={{width:'70%', margin:'0 auto'}} className='card-img-overlay'/>
+        <Card style={{marginTop:'40%'}}>
         <Card.Body>
         <h2 className='text-center mb-4'>Log In</h2>
         {error && <Alert variant='danger'>{error}</Alert>}

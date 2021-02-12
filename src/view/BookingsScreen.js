@@ -1,8 +1,8 @@
 import React, {  useState, useEffect} from 'react';
 import {Form, Button, Card, Container, Alert} from 'react-bootstrap'
 
-import 'firebase/firestore'
 import { db } from '../data/Firebase'
+import {v4 as uuid4} from 'uuid'
 
 import {Link} from 'react-router-dom'
 
@@ -29,24 +29,33 @@ const BookingForm = () => {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [time, setTime] = useState('');
-    const [place, setPlase] = useState('');
-    const [email, setEmail] = useState('');
+    const [hall, setHall] = useState('');
 
-    
+    const database = db.collection('location')
 
-    function addData () {
-    db.collection("cities").doc("LA").set({
-        name: "Los Angeles",
-        state: "CA",
-        country: "USA"
-    })
-    .then(() => {
-        console.log("Document successfully written!");
-    })
-    .catch((error) => {
-        console.error("Error writing document: ", error);
-    });
-    
+    function getBookingData() {
+        setLoading(true)
+        database.onSnapshot((quarySnapshot) => {
+            const items = []
+            quarySnapshot.forEach((doc) => {
+                items.push(doc.data())
+            })
+            setBookings(items)
+            setLoading(false)
+        })
+    }
+
+    useEffect(() => {
+        getBookingData()
+    }, [])
+
+    function addData (newBooking) {
+        database
+        .doc(newBooking.id)
+        .set(newBooking)
+        .catch((err) => {
+            console.error(err)
+        })
     }
 
 
@@ -57,6 +66,12 @@ const BookingForm = () => {
         <h2 className='text-center mb-4'>Bookings</h2>
         {error && <Alert variant='danger'>{error}</Alert>}
             <Form>
+            <Form.Group id='text'>
+                    <Form.Label>Hall</Form.Label>
+                    <Form.Control type='text'
+                        placeholder='Put in the hall'
+                    />
+                </Form.Group>
                 <Form.Group id='text'>
                     <Form.Label>Time</Form.Label>
                     <Form.Control type='text'
@@ -64,7 +79,7 @@ const BookingForm = () => {
                     />
                 </Form.Group>
                 <Button 
-                onClick={addData()}
+                
                 disabled={loading}
                 className='w-100'
                 type='submit'
@@ -75,6 +90,15 @@ const BookingForm = () => {
     <div className='w-100 text-center mt-2'>
         <Link to='/'>Cancel</Link>
     </div>
+    {bookings.map((bookings)=> (
+    <Card className='w-100 text-center mt-2'>
+    <Card.Body>
+        <div  key={bookings.id}>
+            <h4>{bookings.hall}</h4>
+            <p>{bookings.time}</p>
+        </div>
+    </Card.Body>   
+    </Card> ))}
 </>
 )
 }
