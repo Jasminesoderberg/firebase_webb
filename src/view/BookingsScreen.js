@@ -2,7 +2,6 @@ import React, {  useState, useEffect} from 'react';
 import {Form, Button, Card, Container, Alert} from 'react-bootstrap'
 
 import { db } from '../data/Firebase'
-import {v4 as uuid4} from 'uuid'
 
 import {Link} from 'react-router-dom'
 
@@ -31,7 +30,7 @@ const BookingForm = () => {
     const [time, setTime] = useState('');
     const [hall, setHall] = useState('');
 
-    const database = db.collection('location')
+    const database = db.collection('locations')
 
     function getBookingData() {
         setLoading(true)
@@ -49,33 +48,52 @@ const BookingForm = () => {
         getBookingData()
     }, [])
 
-    function addData (newBooking) {
+    function submitFormToAddData(e){
+        e.preventDefault()
+
         database
-        .doc(newBooking.id)
-        .set(newBooking)
-        .catch((err) => {
-            console.error(err)
+        .add({
+            hall,
+            time
         })
+        .then(() => {
+            setHall('')
+            setTime('')
+        })
+    }
+
+    function deleteData() {
+        database
+        .doc(bookings.id)
+        .delete()
+        .then(() => {
+            setBookings((prev) => 
+            prev.filter((element) => element.id !== bookings.id)
+        )
+        })
+        
     }
 
 
     return (
         <> 
-        <Card>
+        <Card className='mt-4'>
         <Card.Body>
         <h2 className='text-center mb-4'>Bookings</h2>
         {error && <Alert variant='danger'>{error}</Alert>}
-            <Form>
+            <Form onSubmit={submitFormToAddData}>
             <Form.Group id='text'>
                     <Form.Label>Hall</Form.Label>
                     <Form.Control type='text'
                         placeholder='Put in the hall'
+                        value={hall} onChange={e => setHall(e.currentTarget.value)}
                     />
                 </Form.Group>
                 <Form.Group id='text'>
                     <Form.Label>Time</Form.Label>
                     <Form.Control type='text'
                         placeholder='Put in the time'
+                        value={time} onChange={e => setTime(e.currentTarget.value)}
                     />
                 </Form.Group>
                 <Button 
@@ -91,7 +109,7 @@ const BookingForm = () => {
         <Link to='/'>Cancel</Link>
     </div>
     {bookings.map((bookings)=> (
-    <Card className='w-100 text-center mt-2'>
+    <Card className='w-100 text-center mt-2 mb-2'>
     <Card.Body>
         <div  key={bookings.id}>
             <h4>{bookings.hall}</h4>

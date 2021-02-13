@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 import {Link, useHistory} from 'react-router-dom'
 
-import shapes from '../../img/shapes.jpg'
+import shapes from '../../img/Shapes.png'
 
 
 export const LogInScreen = () => {
