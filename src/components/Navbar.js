@@ -14,10 +14,10 @@ export const Navbar = () => {
                             <a href='/' className='nav-link'>Home</a>
                         </li>
                         <li className='nav-item'>
-                            <a href='/profile' className='nav-link'>Profile</a>
+                            <a href='/bookings' className='nav-link'>Bookings</a>
                         </li>
                         <li className='nav-item'>
-                            <a href='/bookings' className='nav-link'>Bookings</a>
+                            <a href='/profile' className='nav-link'>Profile</a>
                         </li>
                         <li className='nav-item'>
                             <a href='/register' className='nav-link'>Register</a>
